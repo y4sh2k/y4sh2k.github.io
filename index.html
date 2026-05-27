@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yash Kulkarni</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #141414;
+    --bg-card: #1e1e1e;
+    --bg-card-hover: #252525;
+    --border: rgba(255,255,255,0.14);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255,255,255,0.82);
+    --text-tertiary: rgba(255,255,255,0.52);
+    --green: #3dba5a;
+    --green-dim: rgba(61,186,90,0.15);
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  html { background: var(--bg); color: var(--text-primary); font-family: var(--sans); font-size: 21.6px; line-height: 1.6; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .layout {
+    display: block;
+    max-width: 1755px;
+    margin: 0 auto;
+    padding: 97px 43px 135px;
+    position: relative;
+  }
+
+  /* ── LEFT COLUMN ── */
+  .left {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(calc(-877.5px));
+    width: 378px;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    z-index: 2;
+    padding: 97px 0 135px;
+  }
+  .left::-webkit-scrollbar { display: none; }
+
+  .name {
+    font-size: 35.1px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+
+  .role {
+    font-size: 18.9px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+
+  .bio {
+    font-size: 17.6px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 26px;
+    font-weight: 300;
+  }
+
+  .bio strong { color: var(--text-primary); font-weight: 500; }
+
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  .meta-block { margin-bottom: 6px; }
+  .meta-label { font-family: var(--mono); font-size: 13.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 3px; }
+  .meta-value { font-size: 17.6px; color: var(--text-secondary); }
+  .meta-value a:hover { color: var(--text-primary); }
+
+  .links { display: flex; gap: 14px; margin-top: 24px; }
+  .links a { font-size: 16.2px; color: var(--text-secondary); display: flex; align-items: center; transition: color 0.15s; }
+  .links a:hover { color: var(--text-primary); }
+
+  .badge-ieee {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-top: 16px;
+  }
+
+  /* ── RIGHT COLUMN ── */
+  .right { margin-left: 486px; min-width: 0; }
+
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 14.9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--green);
+    border-radius: 4px;
+    padding: 24px 27px;
+    margin-bottom: 10px;
+    background: var(--bg-card);
+    transition: background 0.15s;
+    cursor: default;
+  }
+  .card:hover { background: var(--bg-card-hover); border-left-color: var(--green); }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .card-tag { font-family: var(--mono); font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
+  .card-meta { font-family: var(--mono); font-size: 13.5px; color: var(--text-tertiary); }
+  .card-title { font-size: 21.6px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .card-desc { font-size: 17.6px; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
+  .card-links { display: flex; gap: 10px; margin-top: 10px; }
+  .card-link { font-family: var(--mono); font-size: 14.9px; color: var(--text-tertiary); transition: color 0.15s; }
+  .card-link:hover { color: var(--text-primary); }
+  .card-featured { border-left: 2px solid var(--green); }
+
+  /* Timeline entries — card background, timeline layout */
+  .timeline-entry {
+    display: grid;
+    grid-template-columns: 162px 1fr;
+    gap: 16px;
+    padding: 22px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--green);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: background 0.15s;
+  }
+  .timeline-entry:hover { background: var(--bg-card-hover); }
+  .tl-date { font-family: var(--mono); font-size: 14.9px; color: var(--text-tertiary); padding-top: 2px; line-height: 1.5; }
+  .tl-title { font-size: 20.2px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
+  .tl-inst { font-size: 16.2px; color: var(--green); margin-bottom: 4px; }
+  .tl-desc { font-size: 16.2px; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
+  .tl-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12.2px;
+    color: var(--green);
+    border: 1px solid rgba(35,134,54,0.4);
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 43px;
+  }
+  .stat { background: var(--bg-card); padding: 24px 27px; text-align: center; }
+  .stat-n { font-size: 35.1px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.03em; }
+  .stat-l { font-family: var(--mono); font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); margin-top: 3px; }
+
+  /* Timeline entries — now used only inside cards */
+  .timeline-entry {
+    display: grid;
+    grid-template-columns: 162px 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .tl-date { font-family: var(--mono); font-size: 14.9px; color: var(--text-tertiary); padding-top: 2px; line-height: 1.5; }
+  .tl-title { font-size: 20.2px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
+  .tl-inst { font-size: 16.2px; color: var(--green); margin-bottom: 4px; }
+  .tl-desc { font-size: 16.2px; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
+  .tl-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12.2px;
+    color: var(--green);
+    border: 1px solid rgba(35,134,54,0.4);
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 43px;
+  }
+  .stat {
+    background: var(--bg-card);
+    padding: 24px 27px;
+    text-align: center;
+  }
+  .stat-n { font-size: 35.1px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.03em; }
+  .stat-l { font-family: var(--mono); font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); margin-top: 3px; }
+
+  /* Section spacing */
+  .section { margin-bottom: 40px; }
+
+  /* Skill chips */
+  .skill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill { font-family: var(--mono); font-size: 13.5px; color: var(--text-secondary); border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px; letter-spacing: 0.03em; }
+
+  /* CTA */
+  .cta-block {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 24px;
+    background: var(--bg-card);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-title { font-size: 24.3px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 8px; }
+  .cta-sub { font-size: 16.2px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 18px; font-weight: 300; font-style: italic; }
+  .cta-btns { display: flex; gap: 8px; justify-content: center; }
+  .btn-primary { font-family: var(--mono); font-size: 14.9px; padding: 8px 18px; background: var(--text-primary); color: var(--bg); border-radius: 2px; letter-spacing: 0.04em; transition: opacity 0.15s; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline { font-family: var(--mono); font-size: 14.9px; padding: 8px 18px; border: 1px solid var(--border); color: var(--text-secondary); border-radius: 2px; letter-spacing: 0.04em; transition: border-color 0.15s, color 0.15s; }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.3); color: var(--text-primary); }
+
+  /* Headline block */
+  .headline-block { margin-bottom: 43px; }
+  .headline-line { font-size: clamp(28px, 4vw, 42px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.08; }
+  .headline-muted { color: rgba(255,255,255,0.28); }
+  .headline-green { color: var(--green); }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .layout { padding: 32px 20px 60px; }
+    .left { position: static; width: auto; height: auto; }
+    .right { margin-left: 0; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .timeline-entry { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particle-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;"></canvas>
+
+<div class="layout" style="position:relative;z-index:1;">
+
+  <!-- ── LEFT COLUMN ── -->
+  <aside class="left">
+    <div class="name">Yash Kulkarni</div>
+    <div class="role">Systems Engineer<br/>Security Researcher</div>
+
+    <p class="bio">
+      <strong>MSc candidate</strong> at the University of Strathclyde, Glasgow. Computer engineer specialising in cybersecurity, UAV systems, requirements engineering, and AI-driven evaluation models.<br/><br/>
+      I approach every problem as a <strong>systems architect</strong> — understanding boundaries, interdependencies, and emergent behaviour before designing a solution.
+    </p>
+
+    <div class="badge-ieee">
+      <span>&#9679;</span> IEEE Published · ICTBIG 2023
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="meta-block">
+      <div class="meta-label">Location</div>
+      <div class="meta-value">Glasgow, United Kingdom</div>
+    </div>
+    <div class="meta-block" style="margin-top:10px;">
+      <div class="meta-label">Education</div>
+      <div class="meta-value">MSc Systems Engineering<br/>University of Strathclyde</div>
+    </div>
+    <div class="meta-block" style="margin-top:10px;">
+      <div class="meta-label">Contact</div>
+      <div class="meta-value"><a href="mailto:yashk61025@gmail.com" style="color:var(--green);">yashk61025@gmail.com</a></div>
+    </div>
+
+    <div class="links">
+      <a href="https://www.linkedin.com/in/kulkarni-yash/" target="_blank">LinkedIn ↗</a>
+      <a href="https://ieeexplore.ieee.org/document/10455983" target="_blank">IEEE ↗</a>
+      <a href="https://drive.google.com/file/d/19RBlXAGxtqAMMzfAAZCu_ZV59up8YgvE/view?usp=drive_link" target="_blank">CV ↗</a>
+    </div>
+  </aside>
+
+  <!-- ── RIGHT COLUMN ── -->
+  <main class="right">
+
+    <!-- Headline -->
+    <div class="headline-block">
+      <div class="headline-line">Complex systems.</div>
+      <div class="headline-line headline-muted">Rigorous engineering.</div>
+      <div class="headline-line headline-green">Zero ambiguity.</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat"><div class="stat-n">5</div><div class="stat-l">Projects</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Institutions</div></div>
+      <div class="stat"><div class="stat-n">2</div><div class="stat-l">Countries</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Published</div></div>
+    </div>
+
+    <!-- Projects -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-label">Projects</span>
+      </div>
+
+      <div class="card card-featured">
+        <div class="card-top">
+          <span class="card-tag">AI · Requirements Engineering</span>
+          <span class="card-meta">2025 to 2026</span>
+        </div>
+        <div class="card-title">ISO 29148 Conformance Checker</div>
+        <div class="card-desc">AI-driven model leveraging SBERT with K-fold cross-validation to assess engineering requirements against 8 ISO-aligned semantic conformity vectors. Automatically flags defects and non-conformities at scale.</div>
+        <div class="card-links">
+          <span class="card-link">MSc Group Project · University of Strathclyde &amp; IFSE</span>
+        </div>
+      </div>
+
+      <div class="card card-featured">
+        <div class="card-top">
+          <span class="card-tag">Defence R&amp;D</span>
+          <span class="card-meta">2024</span>
+        </div>
+        <div class="card-title">UAV Secure Communications Protocol</div>
+        <div class="card-desc">Led a 38-person R&D team on a Government of India commissioned UAV project. Personally architected the secure communications protocol for encrypted wireless data and video feed transmission.</div>
+        <div class="card-links">
+          <span class="card-link">KTP · Vishwakarma University</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag">Security · Product</span>
+          <span class="card-meta">2024</span>
+        </div>
+        <div class="card-title">QodeGen / MiXXr</div>
+        <div class="card-desc">Encrypted QR ticketing system with identity-linked, single-use codes and AES-128 security. Commercialised as MiXXr — an event management platform gifted to and actively used by Vishwakarma University.</div>
+        <div class="card-links">
+          <span class="card-link">Binghamton &amp; Vishwakarma Universities</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag">Cybersecurity · Research</span>
+          <span class="card-meta">Dec 2023</span>
+        </div>
+        <div class="card-title">ReconMaster</div>
+        <div class="card-desc">Web reconnaissance toolkit in Bash and Go integrating multiple pentest tools for efficient footprinting. Reduces time required for comprehensive testing including footprinting.</div>
+        <div class="card-links">
+          <a class="card-link" href="https://ieeexplore.ieee.org/document/10455983" target="_blank" style="color:var(--green);">IEEE Xplore ↗</a>
+          <span class="card-link">DOI: 10.1109/ICTBIG59752.2023.10455983</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag">HRM · AI</span>
+          <span class="card-meta">2024</span>
+        </div>
+        <div class="card-title">T.I.G.E.R. Test</div>
+        <div class="card-desc">Talent-employer compatibility platform using preference analysis and structured scoring. Quantifies the human dilemma in hiring decisions to support fact-based talent retention.</div>
+        <div class="card-links">
+          <span class="card-link">Independent Project</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-label">Ongoing Research</span>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-tag">Master's Research</span>
+          <span class="card-meta">Jan 2026 to Aug 2026</span>
+        </div>
+        <div class="card-title">The Illusion of Control in Complex System Design</div>
+        <div class="card-desc">Examines how formal controls such as requirements, standards, architectures, and performance metrics create a perceived sense of control over complex systems, while actual system behaviour is driven by interactions, feedback loops, and adaptation.</div>
+        <div class="card-links">
+          <span class="card-link">Individual MSc Research · University of Strathclyde</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-label">Education</span>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="tl-date">Sep 2025<br/>Sep 2026</div>
+        <div>
+          <div class="tl-title">MSc Systems Engineering Management</div>
+          <div class="tl-inst">University of Strathclyde, Glasgow</div>
+          <div class="tl-desc">Systems thinking, requirements engineering, system architecture, integration, and lifecycle management for complex socio-technical systems.</div>
+          <span class="tl-badge">Ongoing</span>
+        </div>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="tl-date">Jun 2021<br/>Apr 2024</div>
+        <div>
+          <div class="tl-title">B.Tech. Computer Engineering</div>
+          <div class="tl-inst">Vishwakarma University, Pune · CGPA 8.05/10</div>
+          <div class="tl-desc">Specialisation in cybersecurity — cryptography, secure system design, vulnerability analysis, penetration testing, and digital forensics.</div>
+        </div>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="tl-date">Jun 2018<br/>Apr 2021</div>
+        <div>
+          <div class="tl-title">Diploma in Electronics &amp; Telecommunications</div>
+          <div class="tl-inst">AISSMS Polytechnic, Pune · 88%</div>
+          <div class="tl-desc">Electronic circuits, communication systems, signal processing, embedded systems, and telecommunication network design.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-label">Certifications</span>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="tl-date">Sep 2021<br/>Apr 2024</div>
+        <div>
+          <div class="tl-title">IBM ICEs Graduate Programme</div>
+          <div class="tl-inst">IBM · Cyber Security &amp; Forensics</div>
+          <div class="tl-desc">Integrated cybersecurity expertise covering systems, applications, networks, data, and physical security alongside digital forensics, governance, and compliance. Security testing, monitoring, auditing, incident investigation, and disaster recovery.</div>
+          <span class="tl-badge">Completed alongside B.Tech</span>
+        </div>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="tl-date">Jul to Aug 2023</div>
+        <div>
+          <div class="tl-title">C3SA Premium Edition</div>
+          <div class="tl-inst">CyberWarFare Labs</div>
+          <div class="tl-desc">Certified Cyber Security Analyst — 30-day capstone project.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-label">Skills</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill">Systems Engineering</span>
+        <span class="skill">Cybersecurity</span>
+        <span class="skill">Requirements Engineering</span>
+        <span class="skill">Secure System Design</span>
+        <span class="skill">NLP / SBERT</span>
+        <span class="skill">UAV / Drone Tech</span>
+        <span class="skill">Penetration Testing</span>
+        <span class="skill">SysML</span>
+        <span class="skill">Kali Linux</span>
+        <span class="skill">Python · Bash · Go</span>
+        <span class="skill">Project Management</span>
+        <span class="skill">Research &amp; Publication</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block">
+      <div class="cta-title">Let's Build Something Together</div>
+      <div class="cta-sub">Complex problems don't deter me — they're where I do my best work.<br/>If yours qualifies, let's build something.</div>
+      <div class="cta-btns">
+        <a class="btn-primary" href="mailto:yashk61025@gmail.com">Start a Conversation</a>
+        <a class="btn-outline" href="https://www.linkedin.com/in/kulkarni-yash/" target="_blank">Connect on LinkedIn</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const canvas = document.getElementById('particle-bg');
+  const ctx = canvas.getContext('2d');
+  const N = 140;
+  let W, H, pts;
+
+  function initParticles() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    const cols = Math.ceil(Math.sqrt(N * W / H));
+    const rows = Math.ceil(N / cols);
+    pts = [];
+    for (let i = 0; i < N; i++) {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      pts.push({
+        x: (col / cols) * W + (Math.random() - 0.5) * (W / cols * 0.8),
+        y: (row / rows) * H + (Math.random() - 0.5) * (H / rows * 0.8),
+        vx: (Math.random() - 0.5) * 1.8,
+        vy: (Math.random() - 0.5) * 1.8,
+        r: 2.5 + Math.random() * 2.5
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        const dx = pts[i].x - pts[j].x;
+        const dy = pts[i].y - pts[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 160) {
+          ctx.strokeStyle = `rgba(35,134,54,${(1 - d / 160) * 0.35})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x, pts[i].y);
+          ctx.lineTo(pts[j].x, pts[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    pts.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(35,134,54,0.55)';
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  initParticles();
+  draw();
+  window.addEventListener('resize', initParticles);
+</script>
+</body>
+</html>
